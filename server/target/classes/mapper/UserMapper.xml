@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mapper.UserMapper">
+    <select id="queryUserByName" resultType="User" parameterType="String">
+        select * from user where name=#{name}
+    </select>
+
+    <select id="queryUser" resultType="User" parameterType="String">
+        select * from user where name=#{name} and password=#{pwd}
+    </select>
+
+    <select id="queryMail" resultType="User" parameterType="String">
+        select * from user where email=#{email}
+    </select>
+
+    <select id="findById" resultType="User" parameterType="int">
+        select * from user where id=#{id}
+    </select>
+
+    <select id="USER_LIST" resultType="User">
+        select * from user
+    </select>
+
+    <select id="USER_LISTByRole" resultType="User">
+        select * from user where role=2 or role=3 or role=4 or role=5
+    </select>
+
+    <delete id="delete" parameterType="int">
+        delete from user where id=#{id}
+    </delete>
+    
+    <update id="update" parameterType="User">
+        update user set name=#{name},password=#{pwd}, email=#{email}, role=#{role} where id=#{id}
+    </update>
+
+    <insert id="add" parameterType="User">
+        insert into user (name,password,email,salt,perms,role) values (#{name},#{password},#{email},#{salt},#{perms},#{role})
+    </insert>
+
+    <update id="update_pwd" parameterType="User">
+        update user set password=#{password},salt=#{salt} where id=#{id}
+    </update>
+
+    <update id="update_email" parameterType="User">
+        update user set email=#{email} where id=#{id}
+    </update>
+
+    <update id="update_name" parameterType="User">
+        update user set name=#{name} where id=#{id}
+    </update>
+
+    <update id="deleteAdmin" parameterType="int">
+        update user set role=6 where id=#{id}
+    </update>
+
+    <update id="updateEdit" parameterType="User">
+        update user set name=#{name},role=#{role},email=#{email},perms=#{perms} where id=#{id}
+    </update>
+</mapper>

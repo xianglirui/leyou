@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mapper.SearchMapper">
+    <resultMap id="SearchBean1" type="Search">
+        <id column="id" property="id"/>
+        <result column="click" property="click"/>
+        <result column="aid" property="aid"/>
+        <result column="tid" property="tid"/>
+        <association property="area" javaType="Area">
+            <id column="aid" property="id"/>
+            <result property="uid" column="uid"/>
+            <result property="name" column="name"/>
+            <result property="site" column="site"/>
+            <result property="star" column="star"/>
+        </association>
+    </resultMap>
+
+    <resultMap id="SearchBean2" type="Search">
+        <id column="id" property="id"/>
+        <result column="click" property="click"/>
+        <result column="aid" property="aid"/>
+        <result column="tid" property="tid"/>
+        <association property="article" javaType="Article">
+            <id column="tid" property="id"/>
+            <result property="uid" column="uid"/>
+            <result property="title" column="title"/>
+            <result property="city" column="city"/>
+            <result property="good" column="good"/>
+            <result property="collect" column="collect"/>
+        </association>
+    </resultMap>
+    <select id="queryArticleIfHaveYOUJI" parameterType="String" resultMap="SearchBean2">
+        select s.id,s.click,s.tid,s.aid,a.id 'tid',a.uid,a.title,a.good,a.collect,a.city from article a left join search s on a.id=s.tid
+        where a.city LIKE CONCAT(CONCAT('%', #{name}), '%') or a.title LIKE CONCAT(CONCAT('%', #{name}), '%')
+    </select>
+
+    <select id="queryAutoToArea" resultMap="SearchBean1" parameterType="String">
+        select s.id,s.click,s.tid,s.aid,a.id 'aid',a.uid,a.name,a.site,a.star from areainfo a left join search s on a.id=s.aid
+        where a.name LIKE CONCAT(CONCAT('%', #{name}), '%') or a.site LIKE CONCAT(CONCAT('%', #{name}), '%')
+    </select>
+
+    <insert id="add" parameterType="Search" useGeneratedKeys="true" keyProperty="id">
+        insert into search (tid,aid,click) values(#{tid},#{aid},#{click})
+    </insert>
+
+    <select id="queryAreaByClick" resultMap="SearchBean1">
+        select s.id,s.click,s.tid,s.aid,a.id 'aid',a.uid,a.name,a.site,a.star from areainfo a left join search s on a.id=s.aid where s.aid!=0 order by s.click desc limit 4
+    </select>
+
+</mapper>

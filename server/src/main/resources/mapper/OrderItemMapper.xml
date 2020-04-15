@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mapper.OrderItemMapper">
+    <resultMap id="OrderItemBean" type="OrderItem">
+        <id column="id" property="id"/>
+        <result column="uid" property="uid"/>
+        <result column="nums" property="nums"/>
+        <result column="account" property="account"/>
+        <result column="state" property="state"/>
+        <result column="comments" property="comments"/>
+        <result column="refund" property="refund"/>
+        <result column="time" property="time"/>
+        <result column="payWay" property="payWay"/>
+        <result column="oid" property="oid"/>
+        <association property="area" javaType="Area">
+            <id column="aid" property="id"/>
+            <result property="name" column="name"/>
+        </association>
+    </resultMap>
+    <select id="orderList" resultMap="OrderItemBean" parameterType="int">
+        select o.*,o.id,o.uid,o.nums,o.account,o.state,o.refund,a.id 'aid',a.name,o.times,o.payWay
+        from areainfo a left join orderItem o on o.aid = a.id where o.uid = #{uid} order by str_to_date(o.times, '%Y-%m-%d %H:%i')
+    </select>
+    <insert id="add" parameterType="OrderItem" useGeneratedKeys="true" keyProperty="id">
+        insert into orderItem (id,uid,aid,nums,account,state,payWay,refund,times) values (#{id},#{uid},#{aid},#{nums},#{account},#{state},#{payWay},#{refund},#{times});
+    </insert>
+    <update id="updateState" parameterType="int">
+        update orderItem set state=#{state} where id=#{id}
+    </update>
+    <update id="updateStateByUid" parameterType="int">
+        update orderItem set state=#{state} where uid=#{uid}
+    </update>
+    <update id="updateRefund" parameterType="int">
+        update orderItem set refund=#{refund} where id=#{id}
+    </update>
+
+    <select id="queryById" parameterType="int" resultType="OrderItem">
+        select * from orderItem where id=#{id}
+    </select>
+
+    <select id="selectCount" resultType="int" parameterType="int">
+        select count(*) from orderItem where aid=#{aid}
+    </select>
+
+</mapper>

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mapper.ArticleMapper">
+    <resultMap id="ArticleBean" type="Article">
+        <id column="id" property="id"/>
+        <result column="reprint" property="reprint"/>
+        <result column="good" property="good"/>
+        <result column="collect" property="collect"/>
+        <result column="article" property="article"/>
+        <result column="title" property="title"/>
+        <result column="times" property="times"/>
+        <result column="city" property="city"/>
+        <result column="click" property="click"/>
+        <result column="img" property="img"/>
+        <association property="user" javaType="User">
+            <id column="uid" property="id"/>
+            <result column="name" property="name"/>
+        </association>
+    </resultMap>
+    <select id="article" parameterType="int" resultMap="ArticleBean">
+        select a.*,u.id 'uid', u.name from user u left join article a on u.id=a.uid where a.id=#{id} and dis!=1
+    </select>
+
+    <insert id="addArticle" parameterType="Article" useGeneratedKeys="true" keyProperty="id">
+        insert into article (uid,reprint,article,title,times,good,collect,dis,city,click,img)
+        values(#{uid},#{reprint},#{article},#{title},#{times},#{good},#{collect},#{dis},#{city},#{click},#{img})
+    </insert>
+
+    <select id="articleList" parameterType="int" resultType="Article">
+        select * from article where uid=#{uid} and dis!=1
+    </select>
+
+    <update id="updateZan" parameterType="int">
+        update article set good=#{good} where id=#{id}
+    </update>
+
+    <update id="updateCollect" parameterType="int">
+        update article set collect=#{collect} where id=#{id}
+    </update>
+
+    <update id="updateDis" parameterType="int">
+        update article set dis=1 where id=#{id}
+    </update>
+
+    <update id="updateClick" parameterType="int">
+        update article set click = #{click} where id=#{id}
+    </update>
+
+    <select id="queryByCity" parameterType="String" resultType="Article">
+        select * from article where city=#{city}
+    </select>
+
+    <select id="queryNotCityOrderByClick" resultType="Article" parameterType="String">
+        select * from article where city!=#{city} order by click desc limit 6
+    </select>
+
+    <update id="editArticle" parameterType="Article">
+        update article set article=#{article},reprint=#{reprint},times=#{times},title=#{title},city=#{city},img=#{img} where id=#{id}
+    </update>
+
+    <select id="queryArticle" resultType="Article">
+        select * from article
+    </select>
+
+    <select id="queryLocalArticle" parameterType="String" resultType="Article">
+        select * from article where city=#{city} order by click desc limit 3
+    </select>
+
+    <select id="queryLocalArticleWithoutCity" resultType="Article">
+        select * from article order by click desc limit 3
+    </select>
+
+</mapper>

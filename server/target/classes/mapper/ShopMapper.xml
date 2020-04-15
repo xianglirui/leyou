@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mapper.ShopMapper">
+    <resultMap id="ShopBean" type="Shop">
+        <id column="id" property="id"/>
+        <association property="area" javaType="Area">
+            <id column="aid" property="id"/>
+            <result property="uid" column="uid"/>
+            <result property="name" column="name"/>
+            <result property="site" column="site"/>
+            <result property="tel" column="tel"/>
+            <result property="opentime" column="opentime"/>
+            <result property="closetime" column="closetime"/>
+            <result property="date" column="date"/>
+            <result property="price" column="price"/>
+            <result property="nums" column="nums"/>
+            <result property="descs" column="descs"/>
+            <result property="star" column="star"/>
+        </association>
+    </resultMap>
+
+    <resultMap id="ShopBean1" type="Shop">
+        <id column="id" property="id"/>
+        <collection property="comment" ofType="Comment">
+            <id column="cid" property="id"/>
+            <result column="content" property="content"/>
+            <result column="star" property="star"/>
+            <result column="times" property="times"/>
+            <result column="back" property="back"/>
+        </collection>
+    </resultMap>
+
+    <resultMap id="ShopBean2" type="Shop">
+        <id column="id" property="id"/>
+        <result property="click" column="click"/>
+        <association property="area" javaType="Area">
+            <id column="aid" property="id"/>
+            <result property="name" column="name"/>
+            <result property="site" column="site"/>
+            <result property="price" column="price"/>
+            <result property="descs" column="descs"/>
+            <result property="star" column="star"/>
+        </association>
+    </resultMap>
+
+    <select id="queryComment" parameterType="int" resultMap="ShopBean1">
+        select s.id,c.id 'cid',c.times,c.star,c.content,c.back from comment c left join shop s on c.aid=s.aid where s.aid=#{aid}
+    </select>
+    <select id="queryShop" parameterType="int" resultMap="ShopBean">
+        select a.*,s.*,a.id 'aid',s.id,a.uid,a.name,a.site,a.tel,a.opentime,a.closetime,a.date,a.price,a.nums,a.descs,a.star
+        from areainfo a left join shop s on s.aid = a.id where s.id = #{id}
+    </select>
+    <insert id="add" parameterType="Shop">
+        insert into shop (aid,click) values (#{aid},#{click});
+    </insert>
+
+    <update id="update" parameterType="int">
+        update shop set click=#{click} where aid=#{aid}
+    </update>
+
+    <select id="shopListOrder" resultMap="ShopBean2">
+        select s.id,s.click,a.id 'aid',a.name,a.price,a.descs,a.star,a.site from areainfo a left join shop s on a.id=s.aid order by s.click desc limit 6
+    </select>
+
+    <select id="getHotArea" resultMap="ShopBean2" parameterType="String">
+        select s.id,s.click,a.id 'aid',a.name,a.price,a.descs,a.star,a.site from areainfo a left join shop s on a.id=s.aid where a.site LIKE CONCAT(CONCAT('%', #{city}), '%') order by s.click desc
+    </select>
+</mapper>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mapper.AreaMapper">
+    <select id="queryArea" parameterType="int" resultType="Area">
+        select * from areainfo where uid=#{uid}
+    </select>
+    <select id="queryAreaById" parameterType="int" resultType="Area">
+        select * from areainfo where id=#{id}
+    </select>
+    <update id="update" parameterType="Area">
+        update areainfo set uid=#{uid},name=#{name},site=#{site},tel=#{tel},opentime=#{opentime},closetime=#{closetime},date=#{date},
+        price=#{price},nums=#{nums},photo=#{photo},descs=#{descs},star=#{star},principal_tel=#{principal_tel},principal=#{principal}
+        where uid=#{uid}
+    </update>
+    <update id="updateForm" parameterType="Area">
+        update areainfo set date=#{date},opentime=#{opentime},closetime=#{closetime},tel=#{tel},price=#{price},nums=#{nums},photo=#{photo},descs=#{descs}
+        where uid=#{uid}
+    </update>
+    <insert id="add" parameterType="Area"  useGeneratedKeys="true" keyProperty="id">
+        insert into areainfo (uid,name,site,tel,opentime,closetime,date,price,nums,photo,descs,star,principal_tel,principal)
+        values(#{uid},#{name},#{site},#{tel},#{opentime},#{closetime},#{date},#{price},#{nums},#{photo},#{descs},star=#{star},#{principal_tel},#{principal})
+    </insert>
+
+    <select id="queryAreaByName" parameterType="String" resultType="Area">
+        select * from areainfo where name=#{name}
+    </select>
+
+    <select id="queryListByCity" parameterType="String" resultType="Area">
+        select * from areainfo where site LIKE CONCAT(CONCAT('%', #{city}), '%');
+    </select>
+</mapper>

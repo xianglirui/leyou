@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mapper.ComplaintMapper">
+    <select id="compList" resultType="Complaint">
+        select * from complaint
+    </select>
+    <select id="queryByUid" resultType="Complaint" parameterType="int">
+        select * from complaint where uid=#{uid}
+    </select>
+    <select id="queryById" resultType="Complaint" parameterType="int">
+        select * from complaint where id=#{id}
+    </select>
+    <insert id="add" parameterType="Complaint">
+        insert into complaint (uid,tid,adid,oid,aid,state,additional,content,types,starttime,dealtime,feedback)
+        values (#{uid},#{tid},#{adid},#{oid},#{aid},#{state},#{additional},#{content},#{types},#{starttime},#{dealtime},#{feedback})
+    </insert>
+
+
+    <update id="updateFeedBack">
+        update complaint set feedback=#{feedback},state=2,dealtime=#{dealtime} where id=#{id}
+    </update>
+
+    <update id="updateState" parameterType="int">
+        update complaint set state=1 where id=#{id}
+    </update>
+
+    <update id="updateAdminId" parameterType="int">
+        update complaint set adid=#{adid} where id=#{id}
+    </update>
+</mapper>

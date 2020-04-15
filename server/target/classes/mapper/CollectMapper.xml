@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mapper.CollectMapper">
+    <select id="collectList" resultType="Collect" parameterType="int">
+        select * from collect where uid=#{uid} and zan=0
+    </select>
+
+    <select id="selectByUidAndTid" parameterType="int" resultType="Collect">
+        select * from collect where uid=#{uid} and tid=#{tid} and zan=0
+    </select>
+
+    <select id="selectByUidAndAid" parameterType="int" resultType="Collect">
+        select * from collect where uid=#{uid} and aid=#{aid} and zan=0
+    </select>
+
+    <insert id="addCollect" parameterType="Collect">
+        insert into collect (uid,aid,tid,times,zan) values (#{uid},#{aid},#{tid},#{times},#{zan})
+    </insert>
+
+    <update id="updateZan" parameterType="int">
+        update collect set zan=1 where tid=#{tid} and aid=#{aid}
+    </update>
+
+    <delete id="removeArticle" parameterType="int">
+
+    </delete>
+
+    <delete id="removeArea" parameterType="int">
+
+    </delete>
+
+    <select id="selectCount" resultType="int" parameterType="int">
+        select count(*) from collect where aid=#{aid}
+    </select>
+
+</mapper>

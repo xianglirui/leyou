@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mapper.StepMapper">
+
+<!--    <resultMap id="Customer" type="CustomerBean">-->
+<!--        <id column="id" property="id"/>-->
+<!--        <result column="active" property="active"/>-->
+<!--        <association property="user" javaType="User">-->
+<!--            <id column="id" property="id"/>-->
+<!--            <result column="name" property="name"/>-->
+<!--            <result column="password" property="password"/>-->
+<!--            <result column="perms" property="perms"/>-->
+<!--            <result column="role" property="role"/>-->
+<!--        </association>-->
+<!--    </resultMap>-->
+
+<!--    <select id="queryCustomer" resultMap="CustomerBean">-->
+<!--        select-->
+<!--        u.*,u.id,u.name,u.passowrd,u.perms,u.role,-->
+<!--        c.*,c.id,c.active-->
+<!--        from step c left join user u on c.uid = u.id-->
+<!--    </select>-->
+
+    <select id="queryStep" parameterType="int" resultType="Step">
+        select * from step where uid=#{uid}
+    </select>
+
+    <update id="update" parameterType="Step">
+        update step set uid=#{uid},active=#{active} ,isForm=#{isForm} ,isFile=#{isFile} where uid=#{uid}
+    </update>
+
+    <update id="update1" parameterType="int">
+        update step set active=#{active}  where uid=#{uid}
+    </update>
+
+    <insert id="insert" parameterType="Step">
+        insert into step (uid,active,isForm,isFile) values (#{uid},#{active},#{isForm},#{isFile})
+    </insert>
+</mapper>
