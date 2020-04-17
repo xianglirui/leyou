@@ -1,10 +1,19 @@
-# 快速开始
+# Start
 
-
-
-
+> 网址：[乐游](http://39.107.253.69:3000/)
+>
+> 体验账号：
+>
+> - 游客：用户名 xlr&emsp;&emsp;密码 123
+> - 商家：用户名 qwe &emsp; 密码 123   &emsp;```想体验管理员账号请Q我```
 
 !> 浏览器仅推荐Chrome，其余浏览器可能会出现未知错误
+
+*图片功能还在完善中，主页展示或其他地方图片显示不正常的请忽略*
+
+
+
+
 
 ## 项目所用技术
 
@@ -19,6 +28,8 @@
 > **Python爬虫**：requests、beautifulSoup、selenium、phantomJS、MongoDB
 >
 > **工具**：git、docker、maven、npm、[iconfont](https://juejin.im/post/59bb864b5188257e7a427c09)
+>
+> **服务器**：tomcat、nginx
 >
 > **生产环境**：idea、WebStorm、Chrome、PyCharm、Postman、MobaXterm
 
