@@ -213,7 +213,7 @@ docker start&nbsp;|&nbsp;stop&nbsp;|&nbsp;rm&nbsp;<容器id>
   docker exec –it c_mysql /bin/bash
   ```
 
-  4. 阿里云安全组开发 3306端口
+  4. 阿里云安全组开放 3306端口
   5. 使用外部机器连接容器中的mysql
   6. 本地数据库迁移
 
@@ -226,7 +226,7 @@ docker start&nbsp;|&nbsp;stop&nbsp;|&nbsp;rm&nbsp;<容器id>
   ```
 
   2. 使用外部机器连接redis
-  3. 阿里云安全组开发 6379端口
+  3. 阿里云安全组开放 6379端口
   4. 本地redis数据迁移
 
 
