@@ -1,9 +1,0 @@
-selenium
-numpy
-jieba
-scikit-learn
-pymongo
-requests
-gunicorn
-gevent
-flask
